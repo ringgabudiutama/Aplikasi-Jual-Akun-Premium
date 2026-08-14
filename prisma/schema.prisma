@@ -1,0 +1,89 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+}
+
+model Brand {
+  id          String    @id @default(cuid())
+  name        String
+  slug        String    @unique
+  category    String
+  icon        String    @default("")
+  description String    @default("")
+  logoUrl     String
+  badge       String    @default("")
+  status      String    @default("aktif") // aktif | nonaktif
+  order       Int       @default(0)
+  packages    Package[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model Package {
+  id        String   @id @default(cuid())
+  brandId   String
+  brand     Brand    @relation(fields: [brandId], references: [id], onDelete: Cascade)
+  name      String
+  price     Int
+  warranty  String
+  note      String   @default("")
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+}
+
+model Banner {
+  id       String @id @default(cuid())
+  title    String
+  subtitle String @default("")
+  imageUrl String @default("")
+  color    String @default("a") // a | b | c gradient token
+  order    Int    @default(0)
+}
+
+model Promo {
+  id     String  @id @default(cuid())
+  title  String
+  desc   String  @default("")
+  active Boolean @default(true)
+  order  Int     @default(0)
+}
+
+model Faq {
+  id       String @id @default(cuid())
+  question String
+  answer   String
+  order    Int    @default(0)
+}
+
+model AiKnowledge {
+  id      String @id @default(cuid())
+  topic   String
+  content String
+}
+
+model Testimonial {
+  id     String @id @default(cuid())
+  name   String
+  text   String
+  rating Int    @default(5)
+  order  Int    @default(0)
+}
+
+model AdminNumber {
+  id    String @id @default(cuid())
+  name  String
+  phone String
+  order Int    @default(0)
+}
+
+// Singleton row (id always "settings")
+model Settings {
+  id        String @id @default("settings")
+  storeName String @default("Rifora Premium")
+  tagline   String @default("Your Trusted Premium Account Store")
+  logoUrl   String @default("")
+}

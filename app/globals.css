@@ -1,0 +1,50 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply border-line;
+  }
+  body {
+    font-family: var(--font-body), system-ui, sans-serif;
+  }
+  h1, h2, h3, .font-display {
+    font-family: var(--font-display), system-ui, sans-serif;
+  }
+  :focus-visible {
+    outline: 2.5px solid #4B3AF0;
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+}
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+  .font-tabular { font-variant-numeric: tabular-nums; }
+}
+
+/* ---- Hero signature: orbiting constellation ---- */
+@keyframes orbit-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+@keyframes orbit-spin-reverse {
+  from { transform: rotate(360deg); }
+  to { transform: rotate(0deg); }
+}
+@keyframes float-y {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+.animate-orbit { animation: orbit-spin 22s linear infinite; }
+.animate-orbit-rev { animation: orbit-spin-reverse 18s linear infinite; }
+.animate-float { animation: float-y 4.5s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-orbit, .animate-orbit-rev, .animate-float {
+    animation: none !important;
+  }
+}
