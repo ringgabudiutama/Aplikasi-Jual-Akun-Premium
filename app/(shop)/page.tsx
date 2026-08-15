@@ -23,8 +23,13 @@ export default async function HomePage() {
 
   return (
     <div>
-      <TopBar title={settings.storeName} />
-      <Hero storeName={settings.storeName} tagline={settings.tagline} brandCount={brands.length} />
+      <TopBar title={settings.storeName} logoUrl={settings.logoUrl} />
+      <Hero
+        storeName={settings.storeName}
+        tagline={settings.tagline}
+        brandCount={brands.length}
+        logoUrl={settings.logoUrl}
+      />
 
       <div className="px-5">
         <Link

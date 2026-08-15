@@ -79,9 +79,5 @@ export interface CartItem {
   brandName: string;
   brandIcon: string;
   logoUrl: string;
-  packageId: string;
-  packageName: string;
-  price: number;
-  warranty: string;
   qty: number;
 }

@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 import {
@@ -28,7 +29,7 @@ const items = [
   { href: "/admin/settings", label: "Pengaturan", icon: Settings },
 ];
 
-export function AdminSidebar() {
+export function AdminSidebar({ logoUrl }: { logoUrl?: string }) {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
 
@@ -53,8 +54,12 @@ export function AdminSidebar() {
       >
         <div className="mb-6 flex items-center justify-between">
           <div className="flex items-center gap-2.5">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-primary to-primary-dark font-display text-sm font-extrabold text-white">
-              R
+            <div className="relative flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-gradient-to-br from-primary to-primary-dark font-display text-sm font-extrabold text-white">
+              {logoUrl ? (
+                <Image src={logoUrl} alt="Logo" fill sizes="36px" className="object-cover" unoptimized />
+              ) : (
+                "R"
+              )}
             </div>
             <div>
               <div className="text-sm font-bold leading-none">Rifora</div>

@@ -22,7 +22,7 @@ export default async function ProdukDetailPage({
   if (!brand || brand.status !== "aktif") notFound();
 
   return (
-    <div className="pb-28">
+    <div className="pb-10">
       <div className="flex items-center gap-3 px-5 pt-5">
         <Link
           href="/produk"
@@ -33,21 +33,23 @@ export default async function ProdukDetailPage({
         </Link>
       </div>
 
-      <div className="flex flex-col items-center px-5 pt-2 text-center">
-        <div className="relative h-24 w-24 overflow-hidden rounded-xl2 bg-primary-light shadow-card">
-          <Image src={brand.logoUrl} alt={brand.name} fill sizes="96px" className="object-cover" unoptimized />
+      <div className="px-5 pt-3">
+        <div className="relative aspect-square w-full overflow-hidden rounded-xl2 bg-primary-light shadow-card">
+          <Image src={brand.logoUrl} alt={brand.name} fill sizes="480px" className="object-cover" unoptimized />
         </div>
-        <h1 className="mt-3 font-display text-xl font-extrabold">{brand.name}</h1>
-        <span className="mt-1 rounded-full bg-primary-light px-3 py-1 text-[11px] font-bold text-primary">
+      </div>
+
+      <div className="px-5 pt-5 text-center">
+        <h1 className="font-display text-xl font-extrabold">{brand.name}</h1>
+        <span className="mt-1 inline-block rounded-full bg-primary-light px-3 py-1 text-[11px] font-bold text-primary">
           {brand.category}
         </span>
         {brand.description && (
-          <p className="mt-3 max-w-sm text-[13px] leading-relaxed text-muted">{brand.description}</p>
+          <p className="mx-auto mt-3 max-w-sm text-[13px] leading-relaxed text-muted">{brand.description}</p>
         )}
       </div>
 
-      <div className="mt-6">
-        <h2 className="px-5 pb-3 font-display text-sm font-bold">Pilih Paket</h2>
+      <div className="mt-8">
         <OrderPanel brand={brand} admins={admins} storeName={settings.storeName} />
       </div>
     </div>

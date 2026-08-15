@@ -1,4 +1,5 @@
 import { Phone, Plus } from "lucide-react";
+import Image from "next/image";
 import { getSettings, getAdminNumbers } from "@/lib/data";
 import { Field, inputCls } from "@/components/admin/Field";
 import { DeleteButton } from "@/components/admin/DeleteButton";
@@ -17,6 +18,19 @@ export default async function SettingsPage() {
       </div>
 
       <form action={updateSettings} className="space-y-4 rounded-xl2 border border-line bg-card p-5 shadow-card">
+        <Field label="Logo Toko" hint="Muncul di header semua halaman, gantikan badge huruf R. Kosongkan kalau tidak ingin mengganti.">
+          <input
+            type="file"
+            name="logo"
+            accept="image/*"
+            className="w-full rounded-xl border border-dashed border-line bg-bg px-3.5 py-3 text-xs file:mr-3 file:rounded-full file:border-0 file:bg-primary file:px-3 file:py-1.5 file:text-xs file:font-bold file:text-white"
+          />
+          {settings.logoUrl && (
+            <div className="relative mt-3 h-14 w-14 overflow-hidden rounded-xl bg-primary-light">
+              <Image src={settings.logoUrl} alt="Logo toko" fill sizes="56px" className="object-cover" unoptimized />
+            </div>
+          )}
+        </Field>
         <Field label="Nama Toko">
           <input name="storeName" defaultValue={settings.storeName} required className={inputCls} />
         </Field>

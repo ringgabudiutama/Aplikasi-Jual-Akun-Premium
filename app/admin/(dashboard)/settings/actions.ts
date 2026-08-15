@@ -2,22 +2,23 @@
 
 import { revalidatePath } from "next/cache";
 import { db } from "@/lib/db";
+import { uploadImage } from "@/lib/blob";
 
 export async function updateSettings(formData: FormData) {
+  const storeName = String(formData.get("storeName") || "Rifora Premium");
+  const tagline = String(formData.get("tagline") || "");
+
+  const file = formData.get("logo") as File | null;
+  const uploadedUrl = file && file.size > 0 ? await uploadImage(file, "store") : null;
+
   await db.settings.upsert({
     where: { id: "settings" },
-    update: {
-      storeName: String(formData.get("storeName") || "Rifora Premium"),
-      tagline: String(formData.get("tagline") || ""),
-    },
-    create: {
-      id: "settings",
-      storeName: String(formData.get("storeName") || "Rifora Premium"),
-      tagline: String(formData.get("tagline") || ""),
-    },
+    update: { storeName, tagline, ...(uploadedUrl ? { logoUrl: uploadedUrl } : {}) },
+    create: { id: "settings", storeName, tagline, logoUrl: uploadedUrl || "" },
   });
   revalidatePath("/admin/settings");
-  revalidatePath("/");
+  revalidatePath("/", "layout");
+  revalidatePath("/admin", "layout");
 }
 
 export async function addAdminNumber(formData: FormData) {

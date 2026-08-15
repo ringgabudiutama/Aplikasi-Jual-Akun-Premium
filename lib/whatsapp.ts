@@ -1,5 +1,3 @@
-import { formatRupiah } from "./format";
-
 /** Normalizes an Indonesian phone number ("0822...", "+62822...", "62822...") to bare 62xxxxxxxxxx for wa.me links. */
 export function toWaNumber(raw: string) {
   const digits = raw.replace(/\D/g, "");
@@ -11,23 +9,33 @@ export function toWaNumber(raw: string) {
 export function buildOrderMessage(opts: {
   storeName: string;
   brandName: string;
-  packageName: string;
-  warranty: string;
   qty: number;
-  total: number;
 }) {
-  const { storeName, brandName, packageName, warranty, qty, total } = opts;
+  const { storeName, brandName, qty } = opts;
   return [
     `Halo Admin *${storeName}* 👋`,
     ``,
     `Saya ingin order:`,
     `🛍️ Produk: *${brandName}*`,
-    `📦 Paket: ${packageName}`,
-    `🛡️ Garansi: ${warranty}`,
     `🔢 Jumlah: ${qty}`,
-    `💰 Total: *${formatRupiah(total)}*`,
     ``,
-    `Mohon info langkah selanjutnya untuk pembayaran ya, terima kasih 🙏`,
+    `Mohon info paket, harga, dan langkah pembayarannya ya, terima kasih 🙏`,
+  ].join("\n");
+}
+
+export function buildCartMessage(opts: {
+  storeName: string;
+  items: { brandName: string; qty: number }[];
+}) {
+  const { storeName, items } = opts;
+  return [
+    `Halo Admin *${storeName}* 👋`,
+    ``,
+    `Saya ingin order beberapa produk sekaligus:`,
+    ``,
+    ...items.map((i, idx) => `${idx + 1}. *${i.brandName}* (x${i.qty})`),
+    ``,
+    `Mohon info paket, harga, dan langkah pembayarannya ya, terima kasih 🙏`,
   ].join("\n");
 }
 

@@ -1,14 +1,17 @@
 import Link from "next/link";
+import Image from "next/image";
 import { ShieldCheck, Zap } from "lucide-react";
 
 export function Hero({
   storeName,
   tagline,
   brandCount,
+  logoUrl,
 }: {
   storeName: string;
   tagline: string;
   brandCount: number;
+  logoUrl?: string;
 }) {
   return (
     <section className="relative overflow-hidden px-5 pt-2">
@@ -51,8 +54,12 @@ export function Hero({
         </div>
         <div className="absolute inset-6 rounded-full border-2 border-dashed border-primary/25 animate-orbit-rev" />
         <div className="absolute inset-0 flex items-center justify-center">
-          <div className="flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-br from-primary to-primary-dark font-display text-3xl font-extrabold text-white shadow-soft">
-            R
+          <div className="relative flex h-24 w-24 items-center justify-center overflow-hidden rounded-full bg-gradient-to-br from-primary to-primary-dark font-display text-3xl font-extrabold text-white shadow-soft">
+            {logoUrl ? (
+              <Image src={logoUrl} alt={storeName} fill sizes="96px" className="object-cover" unoptimized />
+            ) : (
+              "R"
+            )}
           </div>
         </div>
 

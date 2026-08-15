@@ -8,11 +8,10 @@ const STORAGE_KEY = "rifora_cart";
 type CartContextValue = {
   items: CartItem[];
   addItem: (item: CartItem) => void;
-  removeItem: (packageId: string) => void;
-  setQty: (packageId: string, qty: number) => void;
+  removeItem: (brandSlug: string) => void;
+  setQty: (brandSlug: string, qty: number) => void;
   clear: () => void;
   count: number;
-  total: number;
 };
 
 const CartContext = createContext<CartContextValue | null>(null);
@@ -37,36 +36,30 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   const addItem = (item: CartItem) => {
     setItems((prev) => {
-      const existing = prev.find((i) => i.packageId === item.packageId);
+      const existing = prev.find((i) => i.brandSlug === item.brandSlug);
       if (existing) {
         return prev.map((i) =>
-          i.packageId === item.packageId ? { ...i, qty: i.qty + item.qty } : i
+          i.brandSlug === item.brandSlug ? { ...i, qty: i.qty + item.qty } : i
         );
       }
       return [...prev, item];
     });
   };
 
-  const removeItem = (packageId: string) =>
-    setItems((prev) => prev.filter((i) => i.packageId !== packageId));
+  const removeItem = (brandSlug: string) =>
+    setItems((prev) => prev.filter((i) => i.brandSlug !== brandSlug));
 
-  const setQty = (packageId: string, qty: number) =>
+  const setQty = (brandSlug: string, qty: number) =>
     setItems((prev) =>
-      prev.map((i) => (i.packageId === packageId ? { ...i, qty: Math.max(1, qty) } : i))
+      prev.map((i) => (i.brandSlug === brandSlug ? { ...i, qty: Math.max(1, qty) } : i))
     );
 
   const clear = () => setItems([]);
 
-  const { count, total } = useMemo(
-    () => ({
-      count: items.reduce((s, i) => s + i.qty, 0),
-      total: items.reduce((s, i) => s + i.qty * i.price, 0),
-    }),
-    [items]
-  );
+  const count = useMemo(() => items.reduce((s, i) => s + i.qty, 0), [items]);
 
   return (
-    <CartContext.Provider value={{ items, addItem, removeItem, setQty, clear, count, total }}>
+    <CartContext.Provider value={{ items, addItem, removeItem, setQty, clear, count }}>
       {children}
     </CartContext.Provider>
   );

@@ -9,7 +9,7 @@ export default async function KeranjangPage() {
 
   return (
     <div>
-      <TopBar title="Keranjang" compact />
+      <TopBar title="Keranjang" compact logoUrl={settings.logoUrl} />
       <CartView admins={admins} storeName={settings.storeName} />
     </div>
   );
